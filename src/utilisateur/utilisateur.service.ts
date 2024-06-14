@@ -3,12 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Utilisateur, UtilisateurDocument } from './utilisateur.schema';
 import * as bcrypt from 'bcrypt';
+import { Serveur, ServeurDocument } from 'src/serveur/serveur.schema';
 
 @Injectable()
 export class UtilisateurService {
   constructor(
     @InjectModel(Utilisateur.name)
     private utilisateurModel: Model<UtilisateurDocument>,
+    @InjectModel(Serveur.name)
+    private serveurModel: Model<ServeurDocument>,
   ) {}
 
   async getByEmailAndClearPassword(
@@ -48,6 +51,14 @@ export class UtilisateurService {
       { $addToSet: { serveurs: idServeurArejoindre } }, // $addToSet évite les duplications
       { new: true }, // Retourner le document mis à jour
     );
+
+    if (utilisateur) {
+      await this.serveurModel.findOneAndUpdate(
+        { _id: idServeurArejoindre },
+        { $addToSet: { participants: utilisateur.email } },
+        { new: true },
+      );
+    }
 
     return utilisateur;
   }

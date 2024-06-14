@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ServeurModule } from './serveur/serveur.module';
 import { UtilisateurModule } from './utilisateur/utilisateur.module';
 import { JwtModule } from '@nestjs/jwt';
+import { SalonModule } from './salon/salon.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { JwtModule } from '@nestjs/jwt';
       secret: 'azerty',
       global: true,
     }),
+    SalonModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

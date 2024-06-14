@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Serveur } from 'src/serveur/serveur.schema';
 
 export type UtilisateurDocument = Utilisateur & Document;
 
@@ -15,8 +14,8 @@ export class Utilisateur {
   @Prop()
   urlAvatar: string;
 
-  @Prop()
-  serveurs: Serveur[];
+  @Prop({ type: [String] })
+  serveurs: string[];
 }
 
 export const UtilisateurSchema = SchemaFactory.createForClass(Utilisateur);

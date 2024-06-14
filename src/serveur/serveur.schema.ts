@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type ServeurDocument = Serveur & Document;
 
@@ -16,6 +16,18 @@ export class Serveur {
 
   @Prop()
   public: boolean;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Salon' }] })
+  salons: Types.ObjectId[];
+
+  @Prop({ type: [String] })
+  participants: string[];
+
+  @Prop({ type: String, required: true })
+  createur: string;
+
+  @Prop()
+  utilisateurs_ban: string[];
 }
 
 export const ServeurSchema = SchemaFactory.createForClass(Serveur);
